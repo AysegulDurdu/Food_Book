@@ -1,0 +1,34 @@
+package com.aysegul.besinlerkitabi.servis
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import com.aysegul.besinlerkitabi.model.Besin
+
+
+@Dao
+interface BesinDAO {
+
+    //Data Access Object
+
+    @Insert        //Veriyi ekleme işlemleri
+    suspend fun insertAll(vararg besin : Besin) : List<Long>
+
+    //Insert -> Room Insert into
+    // suspend fun -> corroutine scope   ->Çok fazla verilerde
+    //vararg -> birden fazla ve istedğimiz sayıda besin
+    // List<long> -> long id'ler
+
+
+    @Query("SELECT * FROM besin")   //Tüm verileri çektik
+    suspend fun getAllBesin() : List<Besin>
+
+
+    @Query("SELECT * FROM besin WHERE uuid = :besinId")
+    suspend fun getBesin(besinId : Int) : Besin
+
+    @Query("DELETE FROM besin")   //Verileri silmek istersem
+    suspend fun deleteAllBesin()
+
+}
